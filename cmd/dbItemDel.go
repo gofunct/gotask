@@ -17,6 +17,9 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/session"
+	"github.com/aws/aws-sdk-go/service/dynamodb"
 	"github.com/spf13/cobra"
 )
 
@@ -31,7 +34,36 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("dbItemDel called")
+		// Initialize a session in us-west-2 that the SDK will use to load
+		// credentials from the shared credentials file ~/.aws/credentials.
+		sess, err := session.NewSession(&aws.Config{
+			Region: aws.String("us-west-2")},
+		)
+
+		// Create DynamoDB client
+		svc := dynamodb.New(sess)
+
+		input := &dynamodb.DeleteItemInput{
+			Key: map[string]*dynamodb.AttributeValue{
+				"year": {
+					N: aws.String("2015"),
+				},
+				"title": {
+					S: aws.String("The Big New Movie"),
+				},
+			},
+			TableName: aws.String("Movies"),
+		}
+
+		_, err = svc.DeleteItem(input)
+
+		if err != nil {
+			fmt.Println("Got error calling DeleteItem")
+			fmt.Println(err.Error())
+			return
+		}
+
+		fmt.Println("Deleted 'The Big New Movie' (2015)")
 	},
 }
 
