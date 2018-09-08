@@ -15,9 +15,10 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/ops2go/gotask/db"
-	"github.com/ops2go/gotask/sessions"
-	"github.com/ops2go/gotask/utils"
+	"github.com/gofunct/gotask/db"
+
+	"github.com/gofunct/coleman/sessions"
+	"github.com/gofunct/gotask/utils"
 )
 
 // UploadedFileHandler is used to handle the uploaded file related requests

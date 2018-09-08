@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/ops2go/gotask/db"
-	"github.com/ops2go/gotask/sessions"
+	"github.com/gofunct/coleman/sessions"
+	"github.com/gofunct/gotask/db"
 )
 
 var homeTemplate *template.Template

@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ops2go/gotask/db"
-	"github.com/ops2go/gotask/sessions"
+	"github.com/gofunct/coleman/db"
+	"github.com/gofunct/coleman/sessions"
 )
 
 //RequiresLogin is a middleware which will be used for each httpHandler to check if there is any active session

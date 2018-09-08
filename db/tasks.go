@@ -15,8 +15,8 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gofunct/gotask/types"
 	_ "github.com/mattn/go-sqlite3" //we want to use sqlite natively
-	"github.com/ops2go/gotask/types"
 	md "github.com/shurcooL/github_flavored_markdown"
 )
 

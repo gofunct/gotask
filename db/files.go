@@ -6,7 +6,7 @@ stores the functions related to file IO and category
 import (
 	"log"
 
-	"github.com/ops2go/gotask/types"
+	"github.com/gofunct/gotask/types"
 )
 
 // AddFile is used to add the md5 of a file name which is uploaded to our application

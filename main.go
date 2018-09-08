@@ -10,8 +10,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/ops2go/gotask/config"
-	"github.com/ops2go/gotask/views"
+	"github.com/gofunct/coleman/config"
+
+	"github.com/gofunct/gotask/views"
 )
 
 func main() {
@@ -84,5 +85,5 @@ func main() {
 	http.HandleFunc("/api/delete-category/", views.DeleteCategoryFuncAPI)
 
 	log.Println("running server on ", values.ServerPort)
-	log.Fatal(http.ListenAndServeTLS(values.ServerPort,  "server.crt", "server.key", nil))
+	log.Fatal(http.ListenAndServeTLS(values.ServerPort, "server.crt", "server.key", nil))
 }

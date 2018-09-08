@@ -13,9 +13,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/ops2go/gotask/db"
-	"github.com/ops2go/gotask/sessions"
-	"github.com/ops2go/gotask/utils"
+	"github.com/gofunct/coleman/sessions"
+	"github.com/gofunct/gotask/db"
+	"github.com/gofunct/gotask/utils"
 )
 
 //PopulateTemplates is used to parse all templates present in
