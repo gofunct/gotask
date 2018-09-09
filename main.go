@@ -85,5 +85,6 @@ func main() {
 	http.HandleFunc("/api/delete-category/", views.DeleteCategoryFuncAPI)
 
 	log.Println("running server on ", values.ServerPort)
-	log.Fatal(http.ListenAndServeTLS(values.ServerPort, "server.crt", "server.key", nil))
+	log.Fatal(http.ListenAndServe(values.ServerPort, nil))
 }
+

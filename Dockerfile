@@ -5,10 +5,11 @@ RUN apk add --update \
         build-base
 RUN go get -u \
         github.com/Masterminds/glide \
-        github.com/ops2go/gotask
-WORKDIR /go/src/github.com/ops2go/gotask
-EXPOSE 8081
-RUN cat schema.sql | sqlite3 tasks.db
-RUN go build
+        github.com/gofunct/gotask
+WORKDIR /go/src/github.com/gofunct/gotask
+RUN glide install
+EXPOSE 8080
+RUN cat schema.sql | sqlite3 tasks.db 
+RUN go install
 ENTRYPOINT [ "gotask" ]
 
