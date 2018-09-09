@@ -99,3 +99,37 @@ func ShowCategoryFunc(w http.ResponseWriter, r *http.Request) {
 		homeTemplate.Execute(w, context)
 	}
 }
+
+//LoginFunc implements the login functionality, will add a cookie to the cookie store for managing authentication
+func LoginFunc(w http.ResponseWriter, r *http.Request) {
+	session, err := sessions.Store.Get(r, "session")
+
+	if err != nil {
+		log.Println("error identifying session")
+		loginTemplate.Execute(w, nil)
+		return
+	}
+
+	switch r.Method {
+	case "GET":
+		loginTemplate.Execute(w, nil)
+	case "POST":
+		log.Print("Inside POST")
+		r.ParseForm()
+		username := r.Form.Get("username")
+		password := r.Form.Get("password")
+
+		if (username != "" && password != "") && db.ValidUser(username, password) {
+			session.Values["loggedin"] = "true"
+			session.Values["username"] = username
+			session.Save(r, w)
+			log.Print("user ", username, " is authenticated")
+			http.Redirect(w, r, "/", 302)
+			return
+		}
+		log.Print("Invalid user " + username)
+		loginTemplate.Execute(w, nil)
+	default:
+		http.Redirect(w, r, "/login/", http.StatusUnauthorized)
+	}
+}

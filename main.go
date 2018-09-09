@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/gofunct/coleman/config"
-
+	"github.com/gofunct/coleman/sessions"
 	"github.com/gofunct/gotask/views"
 )
 
@@ -37,38 +37,38 @@ func main() {
 
 	//Login logout
 	http.HandleFunc("/login/", views.LoginFunc)
-	http.HandleFunc("/logout/", views.RequiresLogin(views.LogoutFunc))
-	http.HandleFunc("/signup/", views.SignUpFunc)
+	http.HandleFunc("/logout/", sessions.RequiresLogin(sessions.LogoutFunc))
+	http.HandleFunc("/signup/", sessions.SignUpFunc)
 
-	http.HandleFunc("/add-category/", views.RequiresLogin(views.AddCategoryFunc))
-	http.HandleFunc("/add-comment/", views.RequiresLogin(views.AddCommentFunc))
-	http.HandleFunc("/add/", views.RequiresLogin(views.AddTaskFunc))
+	http.HandleFunc("/add-category/", sessions.RequiresLogin(views.AddCategoryFunc))
+	http.HandleFunc("/add-comment/", sessions.RequiresLogin(views.AddCommentFunc))
+	http.HandleFunc("/add/", sessions.RequiresLogin(views.AddTaskFunc))
 
 	//these handlers are used to delete
-	http.HandleFunc("/del-comment/", views.RequiresLogin(views.DeleteCommentFunc))
-	http.HandleFunc("/del-category/", views.RequiresLogin(views.DeleteCategoryFunc))
-	http.HandleFunc("/delete/", views.RequiresLogin(views.DeleteTaskFunc))
+	http.HandleFunc("/del-comment/", sessions.RequiresLogin(views.DeleteCommentFunc))
+	http.HandleFunc("/del-category/", sessions.RequiresLogin(views.DeleteCategoryFunc))
+	http.HandleFunc("/delete/", sessions.RequiresLogin(views.DeleteTaskFunc))
 
 	//these handlers update
-	http.HandleFunc("/upd-category/", views.RequiresLogin(views.UpdateCategoryFunc))
-	http.HandleFunc("/update/", views.RequiresLogin(views.UpdateTaskFunc))
+	http.HandleFunc("/upd-category/", sessions.RequiresLogin(views.UpdateCategoryFunc))
+	http.HandleFunc("/update/", sessions.RequiresLogin(views.UpdateTaskFunc))
 
 	//these handlers are used for restoring tasks
-	http.HandleFunc("/incomplete/", views.RequiresLogin(views.RestoreFromCompleteFunc))
-	http.HandleFunc("/restore/", views.RequiresLogin(views.RestoreTaskFunc))
+	http.HandleFunc("/incomplete/", sessions.RequiresLogin(views.RestoreFromCompleteFunc))
+	http.HandleFunc("/restore/", sessions.RequiresLogin(views.RestoreTaskFunc))
 
 	//these handlers fetch set of tasks
-	http.HandleFunc("/", views.RequiresLogin(views.ShowAllTasksFunc))
-	http.HandleFunc("/category/", views.RequiresLogin(views.ShowCategoryFunc))
-	http.HandleFunc("/deleted/", views.RequiresLogin(views.ShowTrashTaskFunc))
-	http.HandleFunc("/completed/", views.RequiresLogin(views.ShowCompleteTasksFunc))
+	http.HandleFunc("/", sessions.RequiresLogin(views.ShowAllTasksFunc))
+	http.HandleFunc("/category/", sessions.RequiresLogin(views.ShowCategoryFunc))
+	http.HandleFunc("/deleted/", sessions.RequiresLogin(views.ShowTrashTaskFunc))
+	http.HandleFunc("/completed/", sessions.RequiresLogin(views.ShowCompleteTasksFunc))
 
 	//these handlers perform action like delete, mark as complete etc
-	http.HandleFunc("/complete/", views.RequiresLogin(views.CompleteTaskFunc))
-	http.HandleFunc("/files/", views.RequiresLogin(views.UploadedFileHandler))
-	http.HandleFunc("/trash/", views.RequiresLogin(views.TrashTaskFunc))
-	http.HandleFunc("/edit/", views.RequiresLogin(views.EditTaskFunc))
-	http.HandleFunc("/search/", views.RequiresLogin(views.SearchTaskFunc))
+	http.HandleFunc("/complete/", sessions.RequiresLogin(views.CompleteTaskFunc))
+	http.HandleFunc("/files/", sessions.RequiresLogin(views.UploadedFileHandler))
+	http.HandleFunc("/trash/", sessions.RequiresLogin(views.TrashTaskFunc))
+	http.HandleFunc("/edit/", sessions.RequiresLogin(views.EditTaskFunc))
+	http.HandleFunc("/search/", sessions.RequiresLogin(views.SearchTaskFunc))
 
 	http.Handle("/static/", http.FileServer(http.Dir("public")))
 
@@ -87,4 +87,3 @@ func main() {
 	log.Println("running server on ", values.ServerPort)
 	log.Fatal(http.ListenAndServe(values.ServerPort, nil))
 }
-
