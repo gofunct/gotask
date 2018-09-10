@@ -10,15 +10,15 @@ func main() {
 	//req, err := http.NewRequest("POST", "http://127.0.0.1:8081/api/get-token/", nil)
 
 	usernamePwd := url.Values{}
-	usernamePwd.Set("username", "coleman")
-	usernamePwd.Set("password", "coleman")
+	usernamePwd.Set("username", "suraj")
+	usernamePwd.Set("password", "suraj")
 
 	//	if err != nil {
 	//		fmt.Println("Unable to form a POST")
 	//	}
 	//req.Header.Add("Content-Type", "application/x-www-form-urlencoded")
 	//resp, err := client.Do(req)
-	resp, err := http.PostForm("https://127.0.0.1:443/api/get-token/", usernamePwd)
+	resp, err := http.PostForm("http://127.0.0.1:8081/api/get-token/", usernamePwd)
 	if err != nil {
 		fmt.Println(err)
 	}

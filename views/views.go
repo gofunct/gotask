@@ -1,13 +1,15 @@
 package views
 
+/*Holds the fetch related view handlers*/
+
 import (
 	"html/template"
 	"log"
 	"net/http"
 	"time"
 
-	"github.com/gofunct/coleman/sessions"
-	"github.com/gofunct/gotask/db"
+	"github.com/thewhitetulip/Tasks/db"
+	"github.com/thewhitetulip/Tasks/sessions"
 )
 
 var homeTemplate *template.Template
@@ -18,9 +20,11 @@ var searchTemplate *template.Template
 var templates *template.Template
 var loginTemplate *template.Template
 
-var message string //notification
+var message string //message will store the message to be shown as notification
 var err error
 
+//ShowAllTasksFunc is used to handle the "/" URL which is the default ons
+//TODO add http404 error
 func ShowAllTasksFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		username := sessions.GetCurrentUserName(r)
@@ -44,7 +48,7 @@ func ShowAllTasksFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Handler for /trash
+//ShowTrashTaskFunc is used to handle the "/trash" URL which is used to show the deleted tasks
 func ShowTrashTaskFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		username := sessions.GetCurrentUserName(r)
@@ -65,6 +69,7 @@ func ShowTrashTaskFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//ShowCompleteTasksFunc is used to populate the "/completed/" URL
 func ShowCompleteTasksFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		username := sessions.GetCurrentUserName(r)
@@ -78,12 +83,15 @@ func ShowCompleteTasksFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+//ShowCategoryFunc will populate the /category/<id> URL which shows all the tasks related
+// to that particular category
 func ShowCategoryFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" && sessions.IsLoggedIn(r) {
-		category := r.URL.Path[len("category/"):]
+		category := r.URL.Path[len("/category/"):]
 		username := sessions.GetCurrentUserName(r)
-		categories := db.GetCategories(username)
 		context, err := db.GetTasks(username, "", category)
+		categories := db.GetCategories(username)
+
 		if err != nil {
 			http.Redirect(w, r, "/", http.StatusInternalServerError)
 		}
@@ -97,39 +105,5 @@ func ShowCategoryFunc(w http.ResponseWriter, r *http.Request) {
 		cookie := http.Cookie{Name: "csrftoken", Value: "abcd", Expires: expiration}
 		http.SetCookie(w, &cookie)
 		homeTemplate.Execute(w, context)
-	}
-}
-
-//LoginFunc implements the login functionality, will add a cookie to the cookie store for managing authentication
-func LoginFunc(w http.ResponseWriter, r *http.Request) {
-	session, err := sessions.Store.Get(r, "session")
-
-	if err != nil {
-		log.Println("error identifying session")
-		loginTemplate.Execute(w, nil)
-		return
-	}
-
-	switch r.Method {
-	case "GET":
-		loginTemplate.Execute(w, nil)
-	case "POST":
-		log.Print("Inside POST")
-		r.ParseForm()
-		username := r.Form.Get("username")
-		password := r.Form.Get("password")
-
-		if (username != "" && password != "") && db.ValidUser(username, password) {
-			session.Values["loggedin"] = "true"
-			session.Values["username"] = username
-			session.Save(r, w)
-			log.Print("user ", username, " is authenticated")
-			http.Redirect(w, r, "/", 302)
-			return
-		}
-		log.Print("Invalid user " + username)
-		loginTemplate.Execute(w, nil)
-	default:
-		http.Redirect(w, r, "/login/", http.StatusUnauthorized)
 	}
 }

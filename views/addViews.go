@@ -16,8 +16,7 @@ import (
 	"time"
 
 	"github.com/gofunct/gotask/db"
-
-	"github.com/gofunct/coleman/sessions"
+	"github.com/gofunct/gotask/sessions"
 	"github.com/gofunct/gotask/utils"
 )
 
@@ -158,7 +157,7 @@ func AddCategoryFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//EditTaskFunc is used to edit tasks, handles "/edit/" URL
+//EditTaskFunc is used to edit gotask, handles "/edit/" URL
 func EditTaskFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Redirect(w, r, "/", http.StatusBadRequest)
@@ -179,7 +178,7 @@ func EditTaskFunc(w http.ResponseWriter, r *http.Request) {
 	task.Referer = redirectURL
 
 	if err != nil {
-		task.Message = "Error fetching Tasks"
+		task.Message = "Error fetching gotask"
 	}
 	editTemplate.Execute(w, task)
 

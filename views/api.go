@@ -78,16 +78,16 @@ func ValidateToken(myToken string) (bool, string) {
 	return token.Valid, claims.Username
 }
 
-//GetTasksFuncAPI fetches tasks depending on the request, the authorization will be taken care by our middleare
-//in this function we will return all the tasks to the user or tasks per category
-//GET /api/get-tasks/
-func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
+//GetgotaskFuncAPI fetches gotask depending on the request, the authorization will be taken care by our middleare
+//in this function we will return all the gotask to the user or gotask per category
+//GET /api/get-gotask/
+func GetgotaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var strTaskID string
 		var err error
 		var message string
 		var task types.Task
-		var tasks types.Tasks
+		var gotask types.gotask
 		var status types.Status
 
 		token := r.Header["Token"][0]
@@ -110,15 +110,15 @@ func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
 		log.Println("token is valid " + username + " is logged in")
 
 		strTaskID = r.URL.Path[len("/api/get-task/"):]
-		//this is when we get a request for all the tasks for that user
+		//this is when we get a request for all the gotask for that user
 		if strTaskID == "" {
-			context, err := db.GetTasks(username, "pending", "")
+			context, err := db.Getgotask(username, "pending", "")
 			if err != nil {
-				message = "GetTasksFuncAPI: api.go: Server error"
+				message = "GetgotaskFuncAPI: api.go: Server error"
 				log.Println(message)
 				status = types.Status{StatusCode: http.StatusInternalServerError, Message: message}
 				w.WriteHeader(http.StatusInternalServerError)
-				err = json.NewEncoder(w).Encode(tasks)
+				err = json.NewEncoder(w).Encode(gotask)
 
 				if err != nil {
 					panic(err)
@@ -126,9 +126,9 @@ func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 
-			tasks = context.Tasks
+			gotask = context.gotask
 			w.WriteHeader(http.StatusOK)
-			err = json.NewEncoder(w).Encode(tasks)
+			err = json.NewEncoder(w).Encode(gotask)
 
 			if err != nil {
 				panic(err)
@@ -139,7 +139,7 @@ func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
 
 		taskID, err := strconv.Atoi(strTaskID)
 		if err != nil {
-			message = "GetTasksFuncAPI: api.go: Invalid taskID " + strTaskID
+			message = "GetgotaskFuncAPI: api.go: Invalid taskID " + strTaskID
 			log.Println(message)
 
 			status = types.Status{StatusCode: http.StatusInternalServerError, Message: message}
@@ -152,7 +152,7 @@ func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		ctx, err := db.GetTaskByID(username, taskID)
-		task = ctx.Tasks[0]
+		task = ctx.gotask[0]
 
 		w.WriteHeader(http.StatusOK)
 
@@ -164,7 +164,7 @@ func GetTasksFuncAPI(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AddTaskFuncAPI will add the tasks for the user
+//AddTaskFuncAPI will add the gotask for the user
 func AddTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		token := r.Header["Token"][0]
@@ -247,7 +247,7 @@ func AddTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//UpdateTaskFuncAPI will add the tasks for the user
+//UpdateTaskFuncAPI will add the gotask for the user
 func UpdateTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "POST" {
 		var taskErr bool
@@ -327,7 +327,7 @@ func UpdateTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//DeleteTaskFuncAPI will add the tasks for the user
+//DeleteTaskFuncAPI will add the gotask for the user
 func DeleteTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		token := r.Header["Token"][0]
@@ -380,12 +380,12 @@ func DeleteTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//GetDeletedTaskFuncAPI will get the deleted tasks for the user
+//GetDeletedTaskFuncAPI will get the deleted gotask for the user
 func GetDeletedTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 	if r.Method == "GET" {
 		var err error
 		var message string
-		var tasks types.Tasks
+		var gotask types.gotask
 		var status types.Status
 
 		token := r.Header["Token"][0]
@@ -407,14 +407,14 @@ func GetDeletedTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 
 		log.Println("token is valid " + username + " is logged in")
 
-		//this is when we get a request for all the deleted tasks for that user
-		context, err := db.GetTasks(username, "deleted", "")
+		//this is when we get a request for all the deleted gotask for that user
+		context, err := db.Getgotask(username, "deleted", "")
 		if err != nil {
-			message = "GetTasksFuncAPI: api.go: Server error"
+			message = "GetgotaskFuncAPI: api.go: Server error"
 			log.Println(message)
 			status = types.Status{StatusCode: http.StatusInternalServerError, Message: message}
 			w.WriteHeader(http.StatusInternalServerError)
-			err = json.NewEncoder(w).Encode(tasks)
+			err = json.NewEncoder(w).Encode(gotask)
 
 			if err != nil {
 				panic(err)
@@ -422,9 +422,9 @@ func GetDeletedTaskFuncAPI(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		tasks = context.Tasks
+		gotask = context.gotask
 		w.WriteHeader(http.StatusOK)
-		err = json.NewEncoder(w).Encode(tasks)
+		err = json.NewEncoder(w).Encode(gotask)
 
 		if err != nil {
 			panic(err)
