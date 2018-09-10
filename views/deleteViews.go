@@ -9,9 +9,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/thewhitetulip/Tasks/db"
-	"github.com/thewhitetulip/Tasks/sessions"
-	"github.com/thewhitetulip/Tasks/utils"
+	"github.com/gofunct/gotask/db"
+	"github.com/gofunct/gotask/sessions"
+	"github.com/gofunct/gotask/utils"
 )
 
 //TrashTaskFunc is used to populate the trash tasks

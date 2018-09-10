@@ -157,7 +157,7 @@ func AddCategoryFunc(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//EditTaskFunc is used to edit gotask, handles "/edit/" URL
+//EditTaskFunc is used to edit tasks, handles "/edit/" URL
 func EditTaskFunc(w http.ResponseWriter, r *http.Request) {
 	if r.Method != "GET" {
 		http.Redirect(w, r, "/", http.StatusBadRequest)
@@ -178,7 +178,7 @@ func EditTaskFunc(w http.ResponseWriter, r *http.Request) {
 	task.Referer = redirectURL
 
 	if err != nil {
-		task.Message = "Error fetching gotask"
+		task.Message = "Error fetching Tasks"
 	}
 	editTemplate.Execute(w, task)
 

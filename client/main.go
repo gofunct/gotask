@@ -10,8 +10,8 @@ func main() {
 	//req, err := http.NewRequest("POST", "http://127.0.0.1:8081/api/get-token/", nil)
 
 	usernamePwd := url.Values{}
-	usernamePwd.Set("username", "suraj")
-	usernamePwd.Set("password", "suraj")
+	usernamePwd.Set("username", "coleman")
+	usernamePwd.Set("password", "coleman")
 
 	//	if err != nil {
 	//		fmt.Println("Unable to form a POST")

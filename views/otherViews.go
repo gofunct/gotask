@@ -13,9 +13,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/thewhitetulip/Tasks/db"
-	"github.com/thewhitetulip/Tasks/sessions"
-	"github.com/thewhitetulip/Tasks/utils"
+	"github.com/gofunct/gotask/db"
+	"github.com/gofunct/gotask/sessions"
+	"github.com/gofunct/gotask/utils"
 )
 
 //PopulateTemplates is used to parse all templates present in
