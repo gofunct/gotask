@@ -107,3 +107,7 @@ func ShowCategoryFunc(w http.ResponseWriter, r *http.Request) {
 		homeTemplate.Execute(w, context)
 	}
 }
+
+func FaviconHandler(w http.ResponseWriter, r *http.Request) {
+	http.ServeFile(w, r, "favi/favicon.ico")
+}

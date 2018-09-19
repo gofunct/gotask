@@ -34,6 +34,8 @@ func main() {
 
 	views.PopulateTemplates()
 
+	http.HandleFunc("/favicon.ico", views.FaviconHandler)
+
 	//Login logout
 	http.HandleFunc("/login/", views.LoginFunc)
 	http.HandleFunc("/logout/", views.RequiresLogin(views.LogoutFunc))
