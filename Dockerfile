@@ -1,8 +1,8 @@
 FROM golang
 
-RUN sudo apt update && sudo apt upgrade
+RUN apt update && sudo apt upgrade
 
-RUN sudo apt-get install sqlite3
+RUN apt-get install sqlite3
 
 COPY gotask bin
 
