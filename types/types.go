@@ -26,10 +26,11 @@ type Tasks []Task
 
 //Comment is the struct used to populate comments per tasks
 type Comment struct {
-	ID       int    `json:"id"`
-	Content  string `json:"content"`
-	Created  string `json:"created_date"`
-	Username string `json:"username"`
+	ID          int           `json:"id"`
+	Content     string        `json:"content"`
+	ContentHTML template.HTML `json:"content_html"`
+	Created     string        `json:"created_date"`
+	Username    string        `json:"username"`
 }
 
 //Context is the struct passed to templates
